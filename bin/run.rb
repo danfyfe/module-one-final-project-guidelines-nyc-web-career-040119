@@ -4,4 +4,6 @@ require 'json'
 require 'pry'
 
 
-puts "Welcome to Hempirical"
+welcome
+user_input = get_user_input
+is_returning_user?(user_input)

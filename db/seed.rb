@@ -18,3 +18,4 @@ response_hash.each do |strain_name,strain_attributes|
 
   new_strain = Strain.create(id: strain_id, name:strain_name, race: race, flavors: flavors, positive_effects: positive_effects, negative_effects: negative_effects, medical_effects: medical_effects)
 end
+
