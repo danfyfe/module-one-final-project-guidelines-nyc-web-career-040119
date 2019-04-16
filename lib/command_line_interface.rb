@@ -3,15 +3,16 @@
 def welcome
   puts "Welcome to Hempirical"
   puts "*" * 21
+  puts "Please enter user name"
 end
 
 def get_user_input
-  puts "Please enter user name"
+  #puts "Please enter user name"
   input = gets.chomp
 end
 
 def is_returning_user?(user_input)
-  
+
   users = User.all.select do |user|
     user.name.downcase == user_input.downcase
   end
@@ -23,7 +24,3 @@ def is_returning_user?(user_input)
     puts "Welcome back, #{user_input}!"
   end
 end
-
-
-
-
