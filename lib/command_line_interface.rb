@@ -47,27 +47,82 @@ end
 
 def what_would_you_like_to_do
   puts "What would you like to do?"
+  puts "*" * 22
   puts "1. Check stash"
   puts "2. Find a new strain"
+  puts "~" * 22
 end
 
 def i_want_to_do_this(user_input,current_user)
   if user_input == "1" || user_input.downcase == "check stash"
       #binding.pry
     current_user.check_stash
+    puts "*" * 22
+    check_stash_prompt
+    check_stash_prompt_answer
+    # what_would_you_like_to_do
+    # user_input = get_user_input
+    # i_want_to_do_this(user_input,current_user)
   elsif user_input == "2" || user_input.downcase == "find a new strain"
     search_prompt
   end
 end
 
+def check_stash_prompt
+  # puts "Would you like to edit to your stash? (yes/no)"
+  # puts "~" * 22
+  puts "Would you like to?"
+  puts "1. View strain info"
+  puts "2. Edit Stash"
+  puts "3. Previous menu"
+end
+
+def check_stash_prompt_answer
+  input = get_user_input
+  if input == "1" || input.downcase == "view strain info"
+    strain_name_prompt
+    input = get_user_input
+    stash_strain_info(input)
+    current_strain = Strain.all.find_by(name:input)
+    input = get_user_input
+    # check_response(input,current_strain,@@current_user)
+    # stash_edit_prompt
+    # puts "Would you like to add or remove from stash?"
+  elsif input == "2" || input.downcase == "edit stash info"
+    stash_edit_prompt
+
+
+  elsif input == "3" || input.downcase == "previous menu"
+    what_would_you_like_to_do
+    user_input = get_user_input
+    i_want_to_do_this(user_input,@@current_user)
+  end
+end
 ### the check_stash method might need to be moved to User class as an instance method? and put the user.empty? logic into the run.rb or somewhere else. we need a way to
 # def check_stash
 #   puts "checking stash, brah"
 #
 # end
+def stash_edit_prompt
+  puts "~" * 22
+  puts "Would you like to add or remove from stash?"
+  puts "1. add"
+  puts "2. remove"
+  input = get_user_input
+  puts "~" * 22
+  if input == "1" || input.downcase == "add"
+    search_prompt
+    input = get_user_input
+    i_want_to_search_this_by(input)
+
+  elsif input == "2" || input.downcase == "remove"
+
+
+  end
+ end
 
 def search_prompt
-  puts "Would you like to search by"
+  puts "Would you like to search by?"
   puts "1. Name"
   puts "2. Species"
   puts "3. Symptoms"
@@ -94,7 +149,6 @@ def i_want_to_search_this_by(input)
     puts "~" * 22
     input = get_user_input
     symptoms_search(input)
-
     #go to method to search by symtoms
   end
 end
@@ -113,6 +167,12 @@ def strain_name_search(input)
 #binding.pry
   if results.empty?
     puts "Sorry, strain not found"
+    puts "*" * 22
+    what_would_you_like_to_do
+    user_input = get_user_input
+    i_want_to_do_this(user_input,@@current_user)
+
+
     # we need a loop here? strain_name_prompt
   else
     puts "name: #{results[0].name}"
@@ -133,8 +193,13 @@ def check_response(input, current_strain, current_user)
     #binding.pry
     current_user.create_stash_instance(current_strain.id)
     puts "#{current_strain.name} successfully added to stash!"
+    sleep(0.2)
+    what_would_you_like_to_do
+    user_input = get_user_input
+    puts "#" * 30
+    i_want_to_do_this(user_input,current_user)
   else
-    puts "Whatever, bro"
+    # puts "Whatever, bro"
   end
   what_would_you_like_to_do
 end
@@ -199,7 +264,7 @@ def symptoms_prompt
   puts "5. Cramps"
   puts "6. Lack of Appetite"
   puts "7. Nausea"
-  puts "9. Headaches" #ALSO SEARCH FOR HEADACHE
+  puts "9. Headaches" #ALSO SEARCHES FOR HEADACHE
   puts "10. Fatiuge"
   puts "11. Eye Pressure"
   puts "12. Inflammation"
@@ -207,7 +272,7 @@ def symptoms_prompt
   puts "14. Seizures"
   puts "15. Muscle Spasms"
   puts ""
-  puts "16. Previous menu"
+  #   puts "16. Previous menu"
 end
 
 def symptoms_search(input)
@@ -242,4 +307,35 @@ def symptoms_search(input)
     input = get_user_input
     check_response(input,current_strain,@@current_user)
   end
+
+
 end
+
+def stash_strain_info(input)
+  results = Strain.all.select do |strain|
+    strain.name.downcase == input.downcase
+  end
+
+#binding.pry
+    if results.empty?
+      puts "Sorry, strain not found"
+      puts "*" * 22
+      what_would_you_like_to_do
+      user_input = get_user_input
+      i_want_to_do_this(user_input,@@current_user)
+
+
+      # we need a loop here? strain_name_prompt
+    else
+      puts "name: #{results[0].name}"
+      puts "species: #{results[0].race}"
+      puts "flavors: #{results[0].flavors}"
+      puts "positive effects: #{results[0].positive_effects}"
+      puts "negative effects: #{results[0].negative_effects}"
+      puts "medical uses: #{results[0].medical_effects}"
+      #results[0]
+      puts "~" * 40
+      puts "Would you like to remove this from your stash? (yes/no)"
+      #check_response(input)
+    end
+  end

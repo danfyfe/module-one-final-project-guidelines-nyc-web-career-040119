@@ -35,12 +35,19 @@ class User < ActiveRecord::Base
     self.stash.select do |stashette|
       user_stash << Strain.all.find_by_id(stashette.strain_id)
     end
-
+    user_stash = user_stash.uniq!
+    i = 0
+    puts "Your stash cotains:"
     user_stash_names = user_stash.map do |strain|
-      strain.name
+      puts "#{i+1}. #{strain.name}"
+      i += 1
     end
 
-    puts "Your stash contains: #{user_stash_names}"
+
+
+    # puts "Your stash contains: #{user_stash_names}"
+    # puts "~" * 22
+
   end
 
   #   puts "Your stash contains:"
