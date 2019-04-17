@@ -51,19 +51,20 @@ def what_would_you_like_to_do
   puts "2. Find a new strain"
 end
 
-def i_want_to_do_this(user_input)
+def i_want_to_do_this(user_input,current_user)
   if user_input == "1" || user_input.downcase == "check stash"
-    check_stash
+      #binding.pry
+    current_user.check_stash
   elsif user_input == "2" || user_input.downcase == "find a new strain"
     search_prompt
   end
 end
 
 ### the check_stash method might need to be moved to User class as an instance method? and put the user.empty? logic into the run.rb or somewhere else. we need a way to
-def check_stash
-  puts "checking stash, brah"
-  # binding.pry
-end
+# def check_stash
+#   puts "checking stash, brah"
+#
+# end
 
 def search_prompt
   puts "Would you like to search by"
@@ -75,19 +76,29 @@ end
 def i_want_to_search_this_by(input)
   if input == "1" || input.downcase == "name"
     strain_name_prompt
+    #input = get_user_input
+    #strain_name_search(input)
+    #current_strain = Strain.all.find_by(name:input)
+    #input = get_user_input
+    #check_response(input,current_strain,current_user)
     #go to method to search by name
   elsif input == "2" || input.downcase == "species"
     species_prompt
+    puts "~" * 22
+    input = get_user_input
+    puts "~" * 22
+    species_search(input)
     #go to method to search by species
   elsif input == "3" || input.downcase == "symptoms"
     symptoms_prompt
+
     #go to method to search by symtoms
   end
 end
 
 def strain_name_prompt
   puts "~" * 22
-  puts "Please enter strain name"
+  puts "Please enter strain name (case sensitive)"
   puts "~" * 22
 end
 
@@ -110,7 +121,19 @@ def strain_name_search(input)
     #results[0]
     puts "~" * 40
     puts "Would you like to put this in your stash? (yes/no)"
+    #check_response(input)
   end
+end
+
+def check_response(input, current_strain, current_user)
+  if input.downcase == "yes"
+    #binding.pry
+    current_user.create_stash_instance(current_strain.id)
+    puts "#{current_strain.name} successfully added to stash!"
+  else
+    puts "Whatever, bro"
+  end
+  what_would_you_like_to_do
 end
 
 def species_prompt
@@ -122,13 +145,47 @@ def species_prompt
   puts "3. Hybrid"
 end
 
-def species_search(input)
-  results = Strain.all.select do |strain|
+def species_search
+  # results =
+  Strain.all.select do |strain|
     strain.race.downcase == input.downcase
-  end
-  sampled_results = results.sample(5)
-  sampled_results.each do |sr|
-    puts "#{sr.name}"
+  end.sample(5)
+end
+
+def species_search_prompt(input)
+  # results = Strain.all.select do |strain|
+  #   strain.race.downcase == input.downcase
+  # end
+  # sampled_results = results.sample(5)
+  # i = 1
+  # sampled_results.each do |sr|
+  #   puts "#{i}. #{sr.name}"
+  #   i += 1
+  # end
+  puts "Please select a strain by name (case sensitive)"
+  puts "1. #{sampled_results[0].name}"
+  puts "2. #{sampled_results[1].name}"
+  puts "3. #{sampled_results[2].name}"
+  puts "4. #{sampled_results[3].name}"
+  puts "5. #{sampled_results[4].name}"
+  puts ""
+  puts "6. See more strains"
+  puts "7. Search different species"
+  puts "~" * 22
+  input = get_user_input
+  if input.downcase == "see more strains" || input == "6"
+    species_search(input)
+  elsif input.downcase == "search different species" || input == "7"
+    species_prompt
+    puts "~" * 22
+    input = get_user_input
+    puts "~" * 22
+    species_search(input)
+  else
+    strain_name_search(input)
+    current_strain = Strain.all.find_by(name:input)
+    input = get_user_input
+    check_response(input,current_strain,@@current_user)
   end
 end
 
@@ -151,11 +208,6 @@ def symptoms_prompt
   puts "13. Spasticity"
   puts "14. Seizures"
   puts "15. Muscle Spasms"
+  puts ""
   puts "16. Previous menu"
 end
-
-
-
-
-
-

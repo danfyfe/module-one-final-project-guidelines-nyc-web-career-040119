@@ -22,14 +22,36 @@ class User < ActiveRecord::Base
   #   puts "*" * 21
   # end
 
-
+#   def user_stash_names
+#     user_stash.each do |strain|
+#     puts "#{strain.name}"
+#   end
+# end
 
   def check_stash
-    puts "checking stash, brah"
-    binding.pry
+    # binding.pry
 
+    user_stash = []
+    self.stash.select do |stashette|
+      user_stash << Strain.all.find_by_id(stashette.strain_id)
+    end
+
+    user_stash_names = user_stash.map do |strain|
+      strain.name
+    end
+
+    puts "Your stash contains: #{user_stash_names}"
   end
 
+  #   puts "Your stash contains:"
+  #   user_stash = []
+  #   self.stash.select do |stashette|
+  #     user_stash << Strain.all.find_by_id(stashette.strain_id)
+  #   end
+  #   "#{user_stash}"
+  # end
 
-
+  def create_stash_instance(current_strain_id)
+    Stash.create(user_id: self.id, strain_id: current_strain_id)
+  end
 end

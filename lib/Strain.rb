@@ -10,5 +10,8 @@ class Strain < ActiveRecord::Base
   #   end.to_a.sample(5)
   # end
 
+  # def strain_expand
+  #
+  # end
 
 end
