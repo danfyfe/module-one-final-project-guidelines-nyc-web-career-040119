@@ -13,6 +13,15 @@ eye_pressure = response_hash.select do |strain_name,strain_info|
   strain_info["effects"]["medical"].include? "Eye Pressure"
 end.to_a.sample(n)
 
+
+#method to find all medical effects
+# medical_effects = Strain.all.map do |strain|
+#   strain.medical_effects
+# end
+
+
+
+
 #What would you like to do?
 #1. Check stash
   #if it's empty, return "Your stash is empty"

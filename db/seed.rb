@@ -1,4 +1,5 @@
-
+require 'rest-client'
+require 'json'
 ## Seed Users
 
 response_string = RestClient.get('http://strainapi.evanbusse.com/IIFiO79/strains/search/all')
@@ -19,3 +20,7 @@ response_hash.each do |strain_name,strain_attributes|
   new_strain = Strain.create(id: strain_id, name:strain_name, race: race, flavors: flavors, positive_effects: positive_effects, negative_effects: negative_effects, medical_effects: medical_effects)
 end
 
+User.find_or_create_by(name:"Dan")
+User.find_or_create_by(name:"Rob")
+User.find_or_create_by(name:"Troy")
+User.find_or_create_by(name:"Edgar")
