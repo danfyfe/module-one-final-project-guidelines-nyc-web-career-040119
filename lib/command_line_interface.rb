@@ -76,11 +76,11 @@ end
 def i_want_to_search_this_by(input)
   if input == "1" || input.downcase == "name"
     strain_name_prompt
-    #input = get_user_input
-    #strain_name_search(input)
-    #current_strain = Strain.all.find_by(name:input)
-    #input = get_user_input
-    #check_response(input,current_strain,current_user)
+    input = get_user_input
+    strain_name_search(input)
+    current_strain = Strain.all.find_by(name:input)
+    input = get_user_input
+    check_response(input,current_strain,@@current_user)
     #go to method to search by name
   elsif input == "2" || input.downcase == "species"
     species_prompt
@@ -91,6 +91,9 @@ def i_want_to_search_this_by(input)
     #go to method to search by species
   elsif input == "3" || input.downcase == "symptoms"
     symptoms_prompt
+    puts "~" * 22
+    input = get_user_input
+    symptoms_search(input)
 
     #go to method to search by symtoms
   end
@@ -138,44 +141,39 @@ end
 
 def species_prompt
   puts "~" * 22
-  puts "Select species"
+  puts "Select species (case sensitive)"
   puts "~" * 22
   puts "1. Sativa"
   puts "2. Indica"
   puts "3. Hybrid"
 end
 
-def species_search
-  # results =
-  Strain.all.select do |strain|
-    strain.race.downcase == input.downcase
-  end.sample(5)
-end
 
-def species_search_prompt(input)
-  # results = Strain.all.select do |strain|
-  #   strain.race.downcase == input.downcase
-  # end
-  # sampled_results = results.sample(5)
+
+def species_search(input)
+  results = Strain.all.select do |strain|
+    strain.race.downcase == input.downcase
+  end
+  sampled_results = results.sample(5)
   # i = 1
   # sampled_results.each do |sr|
   #   puts "#{i}. #{sr.name}"
   #   i += 1
   # end
-  puts "Please select a strain by name (case sensitive)"
+  puts "Please enter strain name (case sensitive)"
   puts "1. #{sampled_results[0].name}"
   puts "2. #{sampled_results[1].name}"
   puts "3. #{sampled_results[2].name}"
   puts "4. #{sampled_results[3].name}"
   puts "5. #{sampled_results[4].name}"
   puts ""
-  puts "6. See more strains"
-  puts "7. Search different species"
+  # puts "6. See more strains"
+  puts "6. Search different species"
   puts "~" * 22
   input = get_user_input
-  if input.downcase == "see more strains" || input == "6"
-    species_search(input)
-  elsif input.downcase == "search different species" || input == "7"
+  # if input.downcase == "see more strains" || input == "6"
+  #   species_search()
+  if input.downcase == "search different species" || input == "6"
     species_prompt
     puts "~" * 22
     input = get_user_input
@@ -210,4 +208,38 @@ def symptoms_prompt
   puts "15. Muscle Spasms"
   puts ""
   puts "16. Previous menu"
+end
+
+def symptoms_search(input)
+  #binding.pry
+  results = Strain.all.select do |strain|
+    strain.medical_effects.downcase.include? input.downcase
+  end
+  sampled_results = results.sample(5)
+
+  puts "Please enter strain name (case sensitive)"
+  puts "1. #{sampled_results[0].name}"
+  puts "2. #{sampled_results[1].name}"
+  puts "3. #{sampled_results[2].name}"
+  puts "4. #{sampled_results[3].name}"
+  puts "5. #{sampled_results[4].name}"
+  puts ""
+  # puts "6. See more strains"
+  puts "6. Search different symptom"
+  puts "~" * 22
+  input = get_user_input
+  # if input.downcase == "see more strains" || input == "6"
+  #   species_search()
+  if input.downcase == "search different symptom" || input == "6"
+    symptoms_prompt
+    puts "~" * 22
+    input = get_user_input
+    puts "~" * 22
+    symptoms_search(input)
+  else
+    strain_name_search(input)
+    current_strain = Strain.all.find_by(name:input)
+    input = get_user_input
+    check_response(input,current_strain,@@current_user)
+  end
 end
