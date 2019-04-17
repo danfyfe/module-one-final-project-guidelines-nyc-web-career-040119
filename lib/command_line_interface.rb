@@ -12,26 +12,10 @@ def get_user_input
   input = gets.chomp
 end
 
+
+#move is_returning_user to User
 def is_returning_user?(user_input)
 
-  # User.all.each do |user|
-  #   if user.name.downcase == user_input.downcase
-  #     puts "Welcome back, #{user_input}!"
-  #   else
-  #     User.create(name: user_input)
-  #     puts "Welcome, #{user_input}!"
-  #   end
-  #
-  # end
-  #
-  # if users.empty?
-  #   User.create(name: user_input)
-  #   puts "Welcome, #{user_input}!"
-  # else
-  #   puts "Welcome back, #{user_input}!"
-  # end
-  # puts "*" * 21
-  #
   users = User.all.select do |user|
     user.name.downcase == user_input.downcase
   end
@@ -45,7 +29,7 @@ def is_returning_user?(user_input)
   puts "*" * 22
 end
 
-def what_would_you_like_to_do
+def what_would_you_like_to_do_main
   puts "What would you like to do?"
   puts "*" * 22
   puts "1. Check stash"
@@ -71,7 +55,8 @@ end
 def check_stash_prompt
   # puts "Would you like to edit to your stash? (yes/no)"
   # puts "~" * 22
-  puts "Would you like to?"
+  puts "What would you like to?"
+  puts "~" * 22
   puts "1. View strain info"
   puts "2. Edit Stash"
   puts "3. Previous menu"
@@ -88,12 +73,12 @@ def check_stash_prompt_answer
     # check_response(input,current_strain,@@current_user)
     # stash_edit_prompt
     # puts "Would you like to add or remove from stash?"
-  elsif input == "2" || input.downcase == "edit stash info"
+  elsif input == "2" || input.downcase == "edit stash"
     stash_edit_prompt
 
 
   elsif input == "3" || input.downcase == "previous menu"
-    what_would_you_like_to_do
+    what_would_you_like_to_do_main
     user_input = get_user_input
     i_want_to_do_this(user_input,@@current_user)
   end
@@ -106,8 +91,9 @@ end
 def stash_edit_prompt
   puts "~" * 22
   puts "Would you like to add or remove from stash?"
-  puts "1. add"
-  puts "2. remove"
+  puts "1. Add"
+  puts "2. Remove"
+  puts "3. Previous menu"
   input = get_user_input
   puts "~" * 22
   if input == "1" || input.downcase == "add"
@@ -116,16 +102,26 @@ def stash_edit_prompt
     i_want_to_search_this_by(input)
 
   elsif input == "2" || input.downcase == "remove"
-
-
+    puts "Please enter strain name you would like to remove (case sensitive)"
+    input = get_user_input
+    current_strain = Strain.all.find_by(name:input)
+    @@current_user.remove_strain_from_stash(current_strain)
+    puts "#{current_strain.name} successfully removed from stash!"
+    @@current_user.check_stash
+    check_stash_prompt
+    check_stash_prompt_answer
+  elsif input == "3" || input.downcase == "previous menu"
+    check_stash_prompt
+    check_stash_prompt_answer
   end
  end
 
 def search_prompt
-  puts "Would you like to search by?"
+  puts "What would you like to search by?"
   puts "1. Name"
   puts "2. Species"
-  puts "3. Symptoms"
+  puts "3. Symptom"
+  puts "4. Previous menu"
 end
 
 def i_want_to_search_this_by(input)
@@ -148,8 +144,13 @@ def i_want_to_search_this_by(input)
     symptoms_prompt
     puts "~" * 22
     input = get_user_input
+    puts "~" * 22
     symptoms_search(input)
     #go to method to search by symtoms
+  elsif input == "4" || input.downcase == "previous menu"
+    what_would_you_like_to_do_main
+    user_input = get_user_input
+    i_want_to_do_this(user_input,@@current_user)
   end
 end
 
@@ -168,7 +169,7 @@ def strain_name_search(input)
   if results.empty?
     puts "Sorry, strain not found"
     puts "*" * 22
-    what_would_you_like_to_do
+    what_would_you_like_to_do_main
     user_input = get_user_input
     i_want_to_do_this(user_input,@@current_user)
 
@@ -193,15 +194,17 @@ def check_response(input, current_strain, current_user)
     #binding.pry
     current_user.create_stash_instance(current_strain.id)
     puts "#{current_strain.name} successfully added to stash!"
-    sleep(0.2)
-    what_would_you_like_to_do
+    
+    what_would_you_like_to_do_main
     user_input = get_user_input
     puts "#" * 30
     i_want_to_do_this(user_input,current_user)
   else
     # puts "Whatever, bro"
   end
-  what_would_you_like_to_do
+  what_would_you_like_to_do_main
+  user_input = get_user_input
+  i_want_to_do_this(user_input,@@current_user)
 end
 
 def species_prompt
@@ -276,42 +279,57 @@ def symptoms_prompt
 end
 
 def symptoms_search(input)
-  #binding.pry
-  results = Strain.all.select do |strain|
-    strain.medical_effects.downcase.include? input.downcase
-  end
-  sampled_results = results.sample(5)
 
-  puts "Please enter strain name (case sensitive)"
-  puts "1. #{sampled_results[0].name}"
-  puts "2. #{sampled_results[1].name}"
-  puts "3. #{sampled_results[2].name}"
-  puts "4. #{sampled_results[3].name}"
-  puts "5. #{sampled_results[4].name}"
-  puts ""
-  # puts "6. See more strains"
-  puts "6. Search different symptom"
-  puts "~" * 22
-  input = get_user_input
-  # if input.downcase == "see more strains" || input == "6"
-  #   species_search()
-  if input.downcase == "search different symptom" || input == "6"
-    symptoms_prompt
-    puts "~" * 22
-    input = get_user_input
-    puts "~" * 22
-    symptoms_search(input)
-  else
-    strain_name_search(input)
-    current_strain = Strain.all.find_by(name:input)
-    input = get_user_input
-    check_response(input,current_strain,@@current_user)
+  all_medical_effects = Strain.all.select do |strain|
+    strain.medical_effects
   end
+
+  # if all_medical_effects.include? input
+    results = Strain.all.select do |strain|
+      strain.medical_effects.downcase.include? input.downcase
+    end
+    sampled_results = results.sample(5)
+
+    puts "Please enter strain name (case sensitive)"
+    puts "1. #{sampled_results[0].name}"
+    puts "2. #{sampled_results[1].name}"
+    puts "3. #{sampled_results[2].name}"
+    puts "4. #{sampled_results[3].name}"
+    puts "5. #{sampled_results[4].name}"
+    puts ""
+    # puts "6. See more strains"
+    puts "6. Search different symptom"
+    puts "~" * 22
+    input = get_user_input
+    # if input.downcase == "see more strains" || input == "6"
+    #   species_search()
+    if input.downcase == "search different symptom" || input == "6"
+      symptoms_prompt
+      puts "~" * 22
+      input = get_user_input
+      puts "~" * 22
+      symptoms_search(input)
+    else
+      strain_name_search(input)
+      current_strain = Strain.all.find_by(name:input)
+      input = get_user_input
+      check_response(input,current_strain,@@current_user)
+    end
+
+  # elsif !all_medical_effects.include? input
+  #   puts "Sorry, symptom \"#{input}\" not found"
+  #   symptoms_prompt
+  #   puts "~" * 22
+  #   input = get_user_input
+  #   symptoms_search(input)
+  # end
+
 
 
 end
 
 def stash_strain_info(input)
+  current_strain = Strain.all.find_by(name:input)
   results = Strain.all.select do |strain|
     strain.name.downcase == input.downcase
   end
@@ -320,7 +338,7 @@ def stash_strain_info(input)
     if results.empty?
       puts "Sorry, strain not found"
       puts "*" * 22
-      what_would_you_like_to_do
+      what_would_you_like_to_do_main
       user_input = get_user_input
       i_want_to_do_this(user_input,@@current_user)
 
@@ -336,6 +354,21 @@ def stash_strain_info(input)
       #results[0]
       puts "~" * 40
       puts "Would you like to remove this from your stash? (yes/no)"
+      input = get_user_input
+      if input.downcase == "yes"
+        @@current_user.remove_strain_from_stash(current_strain)
+        puts "#{current_strain.name} successfully removed from stash!"
+        @@current_user.check_stash
+        check_stash_prompt
+        check_stash_prompt_answer
+      elsif input.downcase == "no"
+        @@current_user.check_stash
+        puts "~" * 22
+        check_stash_prompt
+        check_stash_prompt_answer
+      end
       #check_response(input)
     end
   end
+
+
