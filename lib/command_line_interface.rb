@@ -50,6 +50,10 @@ def welcome
   puts "~" * 22
 end
 
+def goodbye
+  puts "Thank you for using " + "Hempirical".green + "!"
+  puts "The leader in medical marijuana management."
+end
 def get_user_input
   #puts "Please enter user name"
   input = gets.chomp
