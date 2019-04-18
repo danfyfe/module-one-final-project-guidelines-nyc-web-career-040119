@@ -86,6 +86,7 @@ end
 
 def stash_edit_prompt
   puts "~" * 22
+  Current_user.check_stash
   puts "Would you like to add or remove from stash?"
   puts "1. Add"
   puts "2. Remove"
@@ -182,7 +183,7 @@ def strain_name_search(input)
     #results[0]
     puts "~" * 22
     puts "Would you like to put this in your stash? (yes/no)"
-    #check_response(input)
+    puts "~" * 22
   end
 end
 
@@ -191,7 +192,7 @@ def check_response(input, current_strain, current_user)
     #binding.pry
     current_user.create_stash_instance(current_strain.id)
     puts "#{current_strain.name} successfully added to stash!"
-
+    puts "~" * 22
     what_would_you_like_to_do_main
     user_input = get_user_input
     puts "#" * 22

@@ -8,7 +8,6 @@ def seed_with_api_data
 
   response_hash = JSON.parse(response_string)
 
-
   # below populates our database with the API data
   response_hash.each do |strain_name,strain_attributes|
     name = strain_name
