@@ -1,9 +1,8 @@
 
-
 def welcome
   puts "Welcome to Hempirical"
   puts "*" * 22
-  puts "Please enter user name"
+  puts "Please enter user name:"
   puts "~" * 22
 end
 
@@ -13,7 +12,6 @@ def get_user_input
 end
 
 
-#move is_returning_user to User
 def is_returning_user?(user_input)
 
   users = User.all.select do |user|
@@ -40,7 +38,7 @@ end
 def i_want_to_do_this(user_input,current_user)
   if user_input == "1" || user_input.downcase == "check stash"
       #binding.pry
-    current_user.check_stash
+    Current_user.check_stash
     puts "*" * 22
     check_stash_prompt
     check_stash_prompt_answer
@@ -60,6 +58,7 @@ def check_stash_prompt
   puts "1. View strain info"
   puts "2. Edit Stash"
   puts "3. Previous menu"
+  puts "~" * 22
 end
 
 def check_stash_prompt_answer
@@ -70,7 +69,7 @@ def check_stash_prompt_answer
     stash_strain_info(input)
     current_strain = Strain.all.find_by(name:input)
     input = get_user_input
-    # check_response(input,current_strain,@@current_user)
+    # check_response(input,current_strain,Current_user)
     # stash_edit_prompt
     # puts "Would you like to add or remove from stash?"
   elsif input == "2" || input.downcase == "edit stash"
@@ -80,14 +79,10 @@ def check_stash_prompt_answer
   elsif input == "3" || input.downcase == "previous menu"
     what_would_you_like_to_do_main
     user_input = get_user_input
-    i_want_to_do_this(user_input,@@current_user)
+    i_want_to_do_this(user_input,Current_user)
   end
 end
-### the check_stash method might need to be moved to User class as an instance method? and put the user.empty? logic into the run.rb or somewhere else. we need a way to
-# def check_stash
-#   puts "checking stash, brah"
-#
-# end
+
 def stash_edit_prompt
   puts "~" * 22
   puts "Would you like to add or remove from stash?"
@@ -105,9 +100,9 @@ def stash_edit_prompt
     puts "Please enter strain name you would like to remove (case sensitive)"
     input = get_user_input
     current_strain = Strain.all.find_by(name:input)
-    @@current_user.remove_strain_from_stash(current_strain)
+    Current_user.remove_strain_from_stash(current_strain)
     puts "#{current_strain.name} successfully removed from stash!"
-    @@current_user.check_stash
+    Current_user.check_stash
     check_stash_prompt
     check_stash_prompt_answer
   elsif input == "3" || input.downcase == "previous menu"
@@ -122,6 +117,7 @@ def search_prompt
   puts "2. Species"
   puts "3. Symptom"
   puts "4. Previous menu"
+  puts "~" * 22
 end
 
 def i_want_to_search_this_by(input)
@@ -131,7 +127,7 @@ def i_want_to_search_this_by(input)
     strain_name_search(input)
     current_strain = Strain.all.find_by(name:input)
     input = get_user_input
-    check_response(input,current_strain,@@current_user)
+    check_response(input,current_strain,Current_user)
     #go to method to search by name
   elsif input == "2" || input.downcase == "species"
     species_prompt
@@ -150,7 +146,7 @@ def i_want_to_search_this_by(input)
   elsif input == "4" || input.downcase == "previous menu"
     what_would_you_like_to_do_main
     user_input = get_user_input
-    i_want_to_do_this(user_input,@@current_user)
+    i_want_to_do_this(user_input,Current_user)
   end
 end
 
@@ -171,7 +167,7 @@ def strain_name_search(input)
     puts "*" * 22
     what_would_you_like_to_do_main
     user_input = get_user_input
-    i_want_to_do_this(user_input,@@current_user)
+    i_want_to_do_this(user_input,Current_user)
 
 
     # we need a loop here? strain_name_prompt
@@ -183,7 +179,7 @@ def strain_name_search(input)
     puts "negative effects: #{results[0].negative_effects}"
     puts "medical uses: #{results[0].medical_effects}"
     #results[0]
-    puts "~" * 40
+    puts "~" * 22
     puts "Would you like to put this in your stash? (yes/no)"
     #check_response(input)
   end
@@ -194,17 +190,17 @@ def check_response(input, current_strain, current_user)
     #binding.pry
     current_user.create_stash_instance(current_strain.id)
     puts "#{current_strain.name} successfully added to stash!"
-    
+
     what_would_you_like_to_do_main
     user_input = get_user_input
-    puts "#" * 30
+    puts "#" * 22
     i_want_to_do_this(user_input,current_user)
   else
     # puts "Whatever, bro"
   end
   what_would_you_like_to_do_main
   user_input = get_user_input
-  i_want_to_do_this(user_input,@@current_user)
+  i_want_to_do_this(user_input,Current_user)
 end
 
 def species_prompt
@@ -215,8 +211,6 @@ def species_prompt
   puts "2. Indica"
   puts "3. Hybrid"
 end
-
-
 
 def species_search(input)
   results = Strain.all.select do |strain|
@@ -251,7 +245,7 @@ def species_search(input)
     strain_name_search(input)
     current_strain = Strain.all.find_by(name:input)
     input = get_user_input
-    check_response(input,current_strain,@@current_user)
+    check_response(input,current_strain,Current_user)
   end
 end
 
@@ -313,7 +307,7 @@ def symptoms_search(input)
       strain_name_search(input)
       current_strain = Strain.all.find_by(name:input)
       input = get_user_input
-      check_response(input,current_strain,@@current_user)
+      check_response(input,current_strain,Current_user)
     end
 
   # elsif !all_medical_effects.include? input
@@ -340,7 +334,7 @@ def stash_strain_info(input)
       puts "*" * 22
       what_would_you_like_to_do_main
       user_input = get_user_input
-      i_want_to_do_this(user_input,@@current_user)
+      i_want_to_do_this(user_input,Current_user)
 
 
       # we need a loop here? strain_name_prompt
@@ -356,19 +350,19 @@ def stash_strain_info(input)
       puts "Would you like to remove this from your stash? (yes/no)"
       input = get_user_input
       if input.downcase == "yes"
-        @@current_user.remove_strain_from_stash(current_strain)
+        Current_user.remove_strain_from_stash(current_strain)
         puts "#{current_strain.name} successfully removed from stash!"
-        @@current_user.check_stash
+        Current_user.check_stash
         check_stash_prompt
         check_stash_prompt_answer
       elsif input.downcase == "no"
-        @@current_user.check_stash
+        Current_user.check_stash
         puts "~" * 22
         check_stash_prompt
         check_stash_prompt_answer
       end
       #check_response(input)
     end
-  end
+end
 
 
