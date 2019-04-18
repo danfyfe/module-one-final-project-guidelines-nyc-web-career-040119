@@ -18,13 +18,14 @@ class User < ActiveRecord::Base
 
   else
     #user_stash = user_stash.uniq!
-      i = 0
+      # i = 0
       puts "=" * 22
       puts "Your stash cotains:"
       puts "-" * 22
       user_stash_names = user_stash.map do |strain|
-        puts "#{i+1}. #{strain.name}"
-        i += 1
+        puts "-  #{strain.name}"
+        #puts "#{i+1}. #{strain.name}"
+        # i += 1
       end
     end
   end
