@@ -54,6 +54,11 @@ def goodbye
   puts "Thank you for using " + "Hempirical".green + "!"
   puts "The leader in medical marijuana management."
 end
+
+def quit
+  goodbye
+end
+
 def get_user_input
   #puts "Please enter user name"
   input = gets.chomp
@@ -79,14 +84,15 @@ def what_would_you_like_to_do_main
   puts "*" * 22
   puts "1. Check stash"
   puts "2. Find a new strain"
+  puts "3. Quit"
   puts "~" * 22
 end
 
 def i_want_to_do_this(user_input,current_user)
   if user_input == "1" || user_input.downcase == "check stash"
       #binding.pry
-    Current_user.check_stash
-    puts "*" * 22
+    # Current_user.check_stash
+    # puts "*" * 22
     check_stash_prompt
     check_stash_prompt_answer
     # what_would_you_like_to_do
@@ -96,17 +102,19 @@ def i_want_to_do_this(user_input,current_user)
     search_prompt
     input = get_user_input
     i_want_to_search_this_by(input)
+  elsif user_input == "3" || user_input.downcase == "quit"
+    quit
   end
 end
 
 def check_stash_prompt
-  # puts "Would you like to edit to your stash? (yes/no)"
-  # puts "~" * 22
+  Current_user.check_stash
   puts "What would you like to?"
   puts "~" * 22
   puts "1. View strain info"
   puts "2. Edit Stash"
   puts "3. Previous menu"
+  puts "4. Quit"
   puts "~" * 22
 end
 
@@ -118,29 +126,28 @@ def check_stash_prompt_answer
     stash_strain_info(input)
     current_strain = Strain.all.find_by(name:input)
     input = get_user_input
-    # check_response(input,current_strain,Current_user)
-    # stash_edit_prompt
-    # puts "Would you like to add or remove from stash?"
   elsif input == "2" || input.downcase == "edit stash"
     stash_edit_prompt
-
-
   elsif input == "3" || input.downcase == "previous menu"
     what_would_you_like_to_do_main
     user_input = get_user_input
     i_want_to_do_this(user_input,Current_user)
+  elsif input == "4" || input.downcase == "quit"
+    quit
   end
 end
 
 def stash_edit_prompt
   puts "~" * 22
   Current_user.check_stash
-  puts "Would you like to add or remove from stash?"
+  puts "How would you like to edit your stash?"
+  puts "~" * 22
   puts "1. Add"
   puts "2. Remove"
   puts "3. Previous menu"
-  input = get_user_input
+  puts "4. Quit"
   puts "~" * 22
+  input = get_user_input
   if input == "1" || input.downcase == "add"
     search_prompt
     input = get_user_input
@@ -152,12 +159,14 @@ def stash_edit_prompt
     current_strain = Strain.all.find_by(name:input)
     Current_user.remove_strain_from_stash(current_strain)
     puts "#{current_strain.name} successfully removed from stash!"
-    Current_user.check_stash
+    # Current_user.check_stash
     check_stash_prompt
     check_stash_prompt_answer
   elsif input == "3" || input.downcase == "previous menu"
     check_stash_prompt
     check_stash_prompt_answer
+  elsif input == "4" || input.downcase == "quit"
+    quit
   end
 end
 
@@ -402,11 +411,11 @@ def stash_strain_info(input)
       if input.downcase == "yes"
         Current_user.remove_strain_from_stash(current_strain)
         puts "#{current_strain.name} successfully removed from stash!"
-        Current_user.check_stash
+        # Current_user.check_stash
         check_stash_prompt
         check_stash_prompt_answer
       elsif input.downcase == "no"
-        Current_user.check_stash
+        # Current_user.check_stash
         puts "~" * 22
         check_stash_prompt
         check_stash_prompt_answer
