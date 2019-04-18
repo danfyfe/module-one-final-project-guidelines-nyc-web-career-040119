@@ -60,7 +60,6 @@ def quit
 end
 
 def get_user_input
-  #puts "Please enter user name"
   input = gets.chomp
 end
 
