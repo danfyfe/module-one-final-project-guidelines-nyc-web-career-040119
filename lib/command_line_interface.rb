@@ -1,6 +1,41 @@
 
 def welcome
-  puts "Welcome to Hempirical"
+  puts "
+                                -.
+                               ++
+                              -ss-
+                             .osyo`
+                            `+osys+
+                            :oosyso-
+                           `+++syso/`
+                           -+/+syyo+.
+      .`                   :+/+syyso:                   `.
+      `+o/.`               ///+shyso/               `.:+:
+       `oyys+:.           `++/+syyso/            .:/+ss/
+        .osyyys+/.        `++/+syyso/         `:/+osss+`
+         .ossyyyso/-       /+//syyso:       -/++oosso+.
+          .+ossyyyss/-     :+//oyys+-     -/+++ossso/.
+           .+oossyyyso+`   .++/oyys+`   ./+++osyso+/`
+            `:+ooosyyyso.   /+/oyyo:   -+++osyyso+-`
+              ./oo+osyyys:  .o+oyyo` `:o+osyysso/`
+                ./+++osyyy/  :+oys- `/oosyyyso:.
+        ````````  `:/++osyy/``+oyo``/osyyys+:`  ` `````
+  `.:+oooossoooo+//-.--++osh/`:oy:`/syyso:-.-:://////++///:-.
+    `-/osyyyyyyyyyyyss+/::/oyo.oy.+ss+/::/oooo+oooooosso+:.
+        .:+osssssssssyyyyso//ooosoo+/+osssssssssooo++/-.
+            .--//+++o+++///+++oyyo+++++++o++/+/::-..
+                        `-/+o+-:-:++/:.`
+                     .:oyyso:` -` `:osss+-`
+                   `+syys+:`   .`   `:+osso/`
+                  :sys+:.      .`     `.:/oso-
+                 --.`          -.          `.-.
+                               :.
+                               :-
+                               :-
+© Muri, 2006".green
+
+  puts "Welcome to" +" Hempirical".green + "!"
+  puts "The leader in medical marijuana management."
   puts "*" * 22
   puts "Please enter user name:"
   puts "~" * 22
