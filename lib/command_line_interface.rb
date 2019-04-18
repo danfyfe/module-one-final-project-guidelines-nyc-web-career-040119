@@ -252,7 +252,7 @@ end
 
 def symptoms_prompt
   puts "~" * 22
-  puts "Select a symptom"
+  puts "Select a symptom (case sensitive)"
   puts "~" * 22
   #stretch goal, allow for selecting multiple symptoms
   puts "1. Depression"
@@ -365,5 +365,3 @@ def stash_strain_info(input)
       #check_response(input)
     end
 end
-
-
