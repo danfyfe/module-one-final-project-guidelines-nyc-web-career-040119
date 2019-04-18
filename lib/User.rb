@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
     end
     if user_stash.empty?
       puts "Your stash is currently empty"
-
+      puts ":" * 22
   else
     #user_stash = user_stash.uniq!
       # i = 0

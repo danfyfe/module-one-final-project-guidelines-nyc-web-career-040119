@@ -1,8 +1,12 @@
 require 'rest-client'
 require 'json'
-## Seed Users
+require 'bundler'
+Bundler.require
 
+ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: 'db/development.db')
+require_all 'lib'
 
+## Seed Users and pupulate database with API data
 def seed_with_api_data
   response_string = RestClient.get('http://strainapi.evanbusse.com/IIFiO79/strains/search/all')
 
@@ -22,9 +26,21 @@ def seed_with_api_data
   end
 end
 
-seed_with_api_data
+def create_stock_users
+  User.find_or_create_by(name:"John")
+  User.find_or_create_by(name:"Paul")
+  User.find_or_create_by(name:"George")
+  User.find_or_create_by(name:"Ringo")
+end
 
-User.find_or_create_by(name:"Dan")
-User.find_or_create_by(name:"Rob")
-User.find_or_create_by(name:"Troy")
-User.find_or_create_by(name:"Edgar")
+def create_stock_users_stashes
+  Stash.create(user_id: 1, strain_id: 1842)
+  Stash.create(user_id: 2, strain_id: 656)
+  Stash.create(user_id: 3, strain_id: 337)
+  Stash.create(user_id: 4, strain_id: 1459)
+  Stash.create(user_id: 4, strain_id: 1721)
+end
+
+seed_with_api_data
+create_stock_users
+create_stock_users_stashes
