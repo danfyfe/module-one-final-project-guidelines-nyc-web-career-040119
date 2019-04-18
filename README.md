@@ -1,41 +1,25 @@
-USER INSTANCE METHODS
+## Thanks for checking out our CLI App!
 
-  #stash
-    => returns User's stash instances
+*A quick hello from Sarah and Dan:*
 
-  #check_stash
-    => puts User's stash
+We're excited to share with you our very first CLI app, Hempirical. Hempiricial is a humble app that uses The Strain API (http://strains.evanbusse.com/index.html) to access information regarding different strains of marijuana for medical purposes.
 
-  #create_stash_instance
-    => creates a stash instance connected to the User instance
-
-  #remove_strain_from_stash
-    => removes a stash instance from the User's stash instances based on strain_id
+The functionality is simple: A User can search through the various strains by name, species, and/or medical symptom and add any strain to their stash. The User can also view their stash as well as add or remove any strain they like.
 
 
-STASH INSTANCE METHODS
+### Installation
 
+1. **Migrate:**  
 
+    Run '*rake db:migrate*' from terminal while inside the top directory
 
+2. **Seed:**
 
+    Run '*ruby db/seed.rb*' in terminal
 
-STRAIN INSTANCE METHODS
+    This will populate the database with The Strain API data
 
+3. **Run the App**  
 
-
-
-COMMAND LINE METHODS
-
-  welcome
-    => puts opening welcome message
-
-  get_user_input
-    => gets.chomp
-
-  what_would_you_like_to_do_main
-    => displays main menu
-      1. check stash
-      2. find new strain
-
-  
+    Run '*ruby bin/run.rb*' in terminal
 
