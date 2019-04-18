@@ -10,12 +10,11 @@ input = get_user_input
 puts "*" * 22
 is_returning_user?(input)
 Current_user = User.all.find_by(name:input)
-#binding.pry
 what_would_you_like_to_do_main
 input = get_user_input
 i_want_to_do_this(input,Current_user)
-input = get_user_input
-i_want_to_search_this_by(input)
+# input = get_user_input
+# i_want_to_search_this_by(input)
 # input = get_user_input
 puts "NOOOO DONT LEAAVVEE"
 

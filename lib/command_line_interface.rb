@@ -11,7 +11,6 @@ def get_user_input
   input = gets.chomp
 end
 
-
 def is_returning_user?(user_input)
 
   users = User.all.select do |user|
@@ -47,6 +46,8 @@ def i_want_to_do_this(user_input,current_user)
     # i_want_to_do_this(user_input,current_user)
   elsif user_input == "2" || user_input.downcase == "find a new strain"
     search_prompt
+    input = get_user_input
+    i_want_to_search_this_by(input)
   end
 end
 
@@ -109,7 +110,7 @@ def stash_edit_prompt
     check_stash_prompt
     check_stash_prompt_answer
   end
- end
+end
 
 def search_prompt
   puts "What would you like to search by?"
