@@ -16,7 +16,7 @@ i_want_to_do_this(input,Current_user)
 # input = get_user_input
 # i_want_to_search_this_by(input)
 # input = get_user_input
-puts "Thank you for using Hempirical!"
+puts "Thank you for using " + "Hempirical".green + "!"
 puts "The leader in medical marijuana management."
 
 
