@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
         #puts "#{i+1}. #{strain.name}"
         # i += 1
       end
+      puts "~" * 22
     end
   end
 
