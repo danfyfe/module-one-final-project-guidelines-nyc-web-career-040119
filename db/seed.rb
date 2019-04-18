@@ -1,15 +1,21 @@
+require 'dotenv/load'
 require 'rest-client'
 require 'json'
 require 'bundler'
 Bundler.require
+
+# require_relative '.env'
+
+# api_key = API_KEY
+$key = ENV["API_KEY"]
 
 ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: 'db/development.db')
 require_all 'lib'
 
 ## Seed Users and pupulate database with API data
 def seed_with_api_data
-  response_string = RestClient.get('http://strainapi.evanbusse.com/IIFiO79/strains/search/all')
-
+  # response_string = RestClient.get('http://strainapi.evanbusse.com/IIFiO79/strains/search/all')
+  response_string = RestClient.get("http://strainapi.evanbusse.com/#{$key}/strains/search/all")
   response_hash = JSON.parse(response_string)
 
   # below populates our database with the API data
