@@ -30,3 +30,12 @@ The functionality is simple: A User can search through the various strains by na
 4. **Run the App**  
 
     Run '*ruby bin/run.rb*' in terminal
+
+
+### Contributing
+
+    If you would like to add to or edit Hempirical, feel free to fork this repository. Please make descriptive commit messages and open a pul request against this repo.
+
+    If you see an issue, but don’t know exactly how to fix it, please raise a Github issue, being as descriptive as possible.
+
+    We will periodically check in to address any changes.
