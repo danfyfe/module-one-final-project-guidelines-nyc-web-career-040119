@@ -9,17 +9,24 @@ The functionality is simple: A User can search through the various strains by na
 
 ### Installation
 
-1. **Migrate:**  
+1. **Obtain API Key**
+
+    Go to strains.evanbusse.com, click "Get a Key". Input your name and email address to receive a unique API Key.
+
+2. **Apply API Key to seed file**
+
+    In the "db" folder, there is a file called seed.rb. On line 14 replace "#{$key}" in the URL with your unique API key. 
+
+2. **Migrate:**  
 
     Run '*rake db:migrate*' from terminal while inside the top directory
 
-2. **Seed:**
+3. **Seed:**
 
     Run '*ruby db/seed.rb*' in terminal
 
     This will populate the database with The Strain API data
 
-3. **Run the App**  
+4. **Run the App**  
 
     Run '*ruby bin/run.rb*' in terminal
-
