@@ -11,11 +11,11 @@ The functionality is simple: A User can search through the various strains by na
 
 1. **Obtain API Key**
 
-    Go to strains.evanbusse.com, click "Get a Key". Input your name and email address to receive a unique API Key.
+    Go to [strains.evanbusse.com](http://strains.evanbusse.com/index.html), click "Get a Key". Input your name and email address to receive a unique API Key.
 
 2. **Apply API Key to seed file**
 
-    In the "db" folder, there is a file called seed.rb. On line 14 replace "#{$key}" in the URL with your unique API key. 
+    In the "db" folder, there is a file called seed.rb. On line 14 replace "#{$key}" in the URL with your unique API key.
 
 2. **Migrate:**  
 
